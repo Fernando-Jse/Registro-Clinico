@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
 
         // Ruta de la imagen que se incluirá en el PDF
-        const imagenUrl = '/images/ft.png'; // Ruta relativa a la imagen en tu proyecto
+       // const imagenUrl = '/images/ft.png'; // Ruta relativa a la imagen en tu proyecto
 
         // Cargar la imagen
         fetch(imagenUrl)
