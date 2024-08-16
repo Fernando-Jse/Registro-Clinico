@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
        // const imagenUrl = '/images/ft.png'; // Ruta relativa a la imagen en tu proyecto
 
         // Cargar la imagen
-        fetch(imagenUrl)
+        /*fetch(imagenUrl)
             .then(response => response.blob())
             .then(blob => {
                 const reader = new FileReader();
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const imagenHeight = 28; // Ajusta según el tamaño de tu imagen
 
                     // Agregar la imagen en la parte superior izquierda
-                    doc.addImage(imgData, 'PNG', 5, 5, imagenWidth, imagenHeight);
+                    doc.addImage(imgData, 'PNG', 5, 5, imagenWidth, imagenHeight);*/
 
         // Título del documento
         const titulo = ' Fundación Pro Rescate Animal de Oriente (FUNPRAO)';
