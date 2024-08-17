@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
 
         // Ruta de la imagen que se incluirá en el PDF
-        const imagenUrl = '/images/ft.png'; // Ruta relativa a la imagen en tu proyecto
+        const imagenUrl = '/images/ft1.jpg'; // Ruta relativa a la imagen en tu proyecto
 
         // Cargar la imagen
         fetch(imagenUrl)
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const imagenHeight = 28; // Ajusta según el tamaño de tu imagen
 
                     // Agregar la imagen en la parte superior izquierda
-                    doc.addImage(imgData, 'PNG', 5, 5, imagenWidth, imagenHeight);
+                    doc.addImage(imgData, 'JPEG', 5, 5, imagenWidth, imagenHeight);
 
         // Título del documento
         const titulo = ' Fundación Pro Rescate Animal de Oriente (FUNPRAO)';
