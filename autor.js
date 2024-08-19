@@ -123,13 +123,19 @@ Vue.component('componente-autors', {
                         <div class="row p-1">
                             <div class="col-md-3 text-nowrap">Esterilizado</div>
                             <div class="col-md-6">
-                                <input v-model="autor.esterilizado" type="text" class="form-control">
+                                <select v-model="autor.esterilizado" type="text" class="form-control">
+                                <option value="Si">Si</option>
+                                <option value="No">No</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row p-1">
                             <div class="col-md-3 text-nowrap">Especie</div>
                             <div class="col-md-6">
-                                <input v-model="autor.especie" type="text" class="form-control">
+                                <select v-model="autor.especie" class="form-control">
+                                <option value="Canino">Canino</option>
+                                <option value="Felino">Felino</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row p-1">
@@ -159,13 +165,19 @@ Vue.component('componente-autors', {
                         <div class="row p-1">
                             <div class="col-md-3 text-nowrap">Genero</div>
                             <div class="col-md-6">
-                                <input v-model="autor.genero" type="text" class="form-control">
+                                <select v-model="autor.genero" type="text" class="form-control">
+                                <option value="Macho">Macho</option>
+                                <option value="Hembra">Hembra</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row p-1">
                             <div class="col-md-3 text-nowrap">Estado</div>
                             <div class="col-md-6">
-                                <input v-model="autor.estado" type="text" class="form-control">
+                                <select v-model="autor.estado" type="text" class="form-control">
+                                <option value="Vivo">Vivo</option>
+                                <option value="Fallecido">Fallecido</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row p-1">

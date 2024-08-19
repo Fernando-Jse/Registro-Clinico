@@ -4,8 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function generarPDF() {
         const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
 
-        // Ruta de la imagen que se incluirá en el PDF
-        const imagenUrl = 'ft1.jpg'; // Ruta relativa a la imagen en tu proyecto// Cargar la imagen
+        
+        const imagenUrl = 'ft1.jpg'; // Ruta relativa a la imagen 
+
+        // Cargar la imagen
         fetch(imagenUrl)
             .then(response => response.blob())
             .then(blob => {
@@ -13,15 +15,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 reader.onloadend = function () {
                     const imgData = reader.result;
 
-                    // Tamaño de la imagen (ajusta según el tamaño real de la imagen)
-                    const imagenWidth = 28; // Ajusta según el tamaño de tu imagen
-                    const imagenHeight = 28; // Ajusta según el tamaño de tu imagen
-                    // Agregar la imagen en la parte superior izquierda
+                    // Tamaño de la imagen
+                    const imagenWidth = 28; 
+                    const imagenHeight = 28; 
+                    
                     doc.addImage(imgData, 'JPEG', 5, 5, imagenWidth, imagenHeight);
 
                     // Título del documento
                     const titulo = 'Fundación Pro Rescate Animal de Oriente (FUNPRAO)';
-                    const tituloY = 30; // Posición vertical del título// Agregar el título
+                    const tituloY = 30;
+                    // Agregar el título
                     doc.setFontSize(20);
                     doc.text(titulo, doc.internal.pageSize.width / 2, tituloY, { align: 'center' });
 
@@ -65,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             { header: "RABIA", dataKey: "rabia" },
                             { header: "QUINTUPLE", dataKey: "quintuple" },
                             { header: "MOQUILLO", dataKey: "moquillo" },
-                            { header: "FECHA VACUNACIÓN", dataKey: "fechac" },
+                            { header: "FECHA CONSULTA", dataKey: "fechac" },
                             { header: "TRATAMIENTOS", dataKey: "tratamientos" },
                             { header: "DOSIS", dataKey: "dosis" },
                             { header: "TIEMPO TRATAMIENTO", dataKey: "tiempot" }
@@ -75,16 +78,16 @@ document.addEventListener('DOMContentLoaded', function() {
                             head: [columns.map(col => col.header)],
                             body: rows,
                             theme: 'striped',
-                            startY: 40, // Ajusta según la posición vertical del título y la imagen
+                            startY: 40, 
                             margin: { top: 10 },
                             styles: {
-                                fontSize: 10, // Tamaño de fuente para los registros
-                                cellPadding: 2, // Espaciado entre 
-                                celdashalign: 'center',
+                                fontSize: 10, 
+                                cellPadding: 2, 
+                                halign: 'center',
                                 valign: 'middle',
                             },
                             headStyles: {
-                                fontSize: 6, // Tamaño de fuente para el encabezadocellPadding: 2,
+                                fontSize: 6, 
                                 textColor: [0, 0, 0],
                                 halign: 'center',
                                 valign: 'middle',
@@ -103,23 +106,18 @@ document.addEventListener('DOMContentLoaded', function() {
                                 10: { cellWidth: 'auto' }, // RABIA
                                 11: { cellWidth: 'auto' }, // QUINTUPLE
                                 12: { cellWidth: 'auto' }, // MOQUILLO
-                                13: { cellWidth: 'auto' }, // FECHA VACUNACIÓN
+                                13: { cellWidth: 'auto' }, // FECHA CONSULTA
                                 14: { cellWidth: 'auto' }, // TRATAMIENTOS
                                 15: { cellWidth: 'auto' }, // DOSIS
                                 16: { cellWidth: 'auto' }, // TIEMPO TRATAMIENTO
                             },
                             didDrawPage: function (data) {
-                                // Agregar un pie de página
+                                
                                 const pieDePagina = 'Lic. Criseida Jeannette Martínez Gonzáles';
-                                const pieY = doc.internal.pageSize.height - 20; // Posición vertical del pie de página
+                                const pieY = doc.internal.pageSize.height - 6;
 
                                 doc.setFontSize(10);
                                 doc.text(pieDePagina, doc.internal.pageSize.width / 2, pieY, { align: 'center' });
-
-                                // Agregar un salto de página si es necesario
-                                if (data.cursor.y > doc.internal.pageSize.height - 40) {
-                                    doc.addPage();
-                                }
                             }
                         });
 
@@ -132,9 +130,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
                 reader.readAsDataURL(blob);
             })
-            .catch(error =>console.error('Error al cargar la imagen:', error));
+            .catch(error => console.error('Error al cargar la imagen:', error));
     }
 
-    // Asigna la función al evento onclick del botón
+    
     document.getElementById('generateButton').onclick = generarPDF;
 });
