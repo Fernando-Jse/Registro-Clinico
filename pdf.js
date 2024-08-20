@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const { jsPDF } = window.jspdf;
 
     function generarPDF() {
-        const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+        const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a3' });
 
         
         const imagenUrl = 'ft1.jpg'; // Ruta relativa a la imagen 
@@ -34,9 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     data.onsuccess = function(event) {
                         const autors = event.target.result;
 
-                        const rows = autors.map(autor => [
+                        const rows = autors.map((autor, index) => [
+                            index + 1,
                             autor.nombre, 
                             autor.esterilizado, 
+                            autor.fechaet, 
                             autor.especie, 
                             autor.fechaingreso, 
                             autor.edad, 
@@ -55,8 +57,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         ]);
 
                         const columns = [
+                            { header: "N°", dataKey: "numeroRegistro" },
                             { header: "NOMBRE", dataKey: "nombre" },
                             { header: "ESTERILIZADO", dataKey: "esterilizado" },
+                            { header: "FECHA ESTERILIZADO", dataKey: "fechaet" },
                             { header: "ESPECIE", dataKey: "especie" },
                             { header: "FECHA INGRESO", dataKey: "fechaingreso" },
                             { header: "EDAD", dataKey: "edad" },
@@ -78,38 +82,44 @@ document.addEventListener('DOMContentLoaded', function() {
                             head: [columns.map(col => col.header)],
                             body: rows,
                             theme: 'striped',
-                            startY: 40, 
-                            margin: { top: 10 },
+                            startY: 40,
+                            margin: { top: 10, left: 5, right: 5 }, // Ajuste de márgenes
                             styles: {
-                                fontSize: 10, 
-                                cellPadding: 2, 
+                                fontSize: 8,             // Tamaño de fuente general
+                                cellPadding: 2,          // Espaciado interno de celdas
                                 halign: 'center',
                                 valign: 'middle',
+                                overflow: 'linebreak',     // Evita que el texto se corte
                             },
                             headStyles: {
-                                fontSize: 6, 
+                                fontSize: 8,             // Tamaño de fuente para encabezados
+                                fontStyle: 'bold',       // Estilo de fuente para encabezados
                                 textColor: [0, 0, 0],
                                 halign: 'center',
                                 valign: 'middle',
+                                cellPadding: 2,
+                                overflow: 'linebreak',
                             },
                             columnStyles: {
-                                0: { cellWidth: 'auto' },  // NOMBRE
-                                1: { cellWidth: 'auto' },  // ESTERILIZADO
-                                2: { cellWidth: 'auto' },  // ESPECIE
-                                3: { cellWidth: 'auto' },  // FECHA INGRESO
-                                4: { cellWidth: 'auto' },  // EDAD
-                                5: { cellWidth: 'auto' },  // COLOR
-                                6: { cellWidth: 'auto' },  // PESO
-                                7: { cellWidth: 'auto' },  // GÉNERO
-                                8: { cellWidth: 'auto' },  // ESTADO
-                                9: { cellWidth: 'auto' },  // DESPARASITACIÓN
-                                10: { cellWidth: 'auto' }, // RABIA
-                                11: { cellWidth: 'auto' }, // QUINTUPLE
-                                12: { cellWidth: 'auto' }, // MOQUILLO
-                                13: { cellWidth: 'auto' }, // FECHA CONSULTA
-                                14: { cellWidth: 'auto' }, // TRATAMIENTOS
-                                15: { cellWidth: 'auto' }, // DOSIS
-                                16: { cellWidth: 'auto' }, // TIEMPO TRATAMIENTO
+                                0: { cellWidth: 'auto' }, // NUMERO DE REGISTRO
+                                1: { cellWidth: 'auto' }, // NOMBRE
+                                2: { cellWidth: 'auto' }, // ESTERILIZADO
+                                3: { cellWidth: 'auto' }, // FECHA ESTERILIZADO
+                                4: { cellWidth: 'auto' }, // ESPECIE
+                                5: { cellWidth: 'auto' }, // FECHA INGRESO
+                                6: { cellWidth: 'auto' }, // EDAD
+                                7: { cellWidth: 'auto' }, // COLOR
+                                8: { cellWidth: 'auto' }, // PESO
+                                9: { cellWidth: 'auto' }, // GÉNERO
+                                10: { cellWidth: 'auto' }, // ESTADO
+                                11: { cellWidth: 'auto' }, // DESPARASITACIÓN
+                                12: { cellWidth: 'auto' }, // RABIA
+                                13: { cellWidth: 'auto' }, // QUINTUPLE
+                                14: { cellWidth: 'auto' }, // MOQUILLO
+                                15: { cellWidth: 'auto' }, // FECHA CONSULTA
+                                16: { cellWidth: 'auto' }, // TRATAMIENTOS
+                                17: { cellWidth: 'auto' }, // DOSIS
+                                18: { cellWidth: 'auto' }, // TIEMPO TRATAMIENTO
                             },
                             didDrawPage: function (data) {
                                 

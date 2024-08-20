@@ -8,6 +8,7 @@ Vue.component('componente-autors', {
                 idAutor: new Date().getTime(),
                 nombre: '',
                 esterilizado: '',
+                fechaet: '',
                 especie: '',
                 fechaingreso: '',
                 edad: '',
@@ -23,6 +24,7 @@ Vue.component('componente-autors', {
                 tratamientos: '',
                 dosis: '',
                 tiempot: '',
+                registroNumero: 0, 
             }
         }
     },
@@ -64,6 +66,7 @@ Vue.component('componente-autors', {
                 idAutor: new Date().getTime(),
                 nombre: '',
                 esterilizado: '',
+                fechaet: '',
                 especie: '',
                 fechaingreso: '',
                 edad: '',
@@ -79,6 +82,7 @@ Vue.component('componente-autors', {
                 tratamientos: '',
                 dosis: '',
                 tiempot: '',
+                registroNumero: this.autors.length + 1
             };
         },
         listar() {
@@ -88,6 +92,7 @@ Vue.component('componente-autors', {
                 this.autors = data.result.filter(autor =>
                     autor.nombre.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.esterilizado.toLowerCase().includes(this.valor.toLowerCase()) ||
+                    autor.fechaet.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.especie.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.fechaingreso.toString().includes(this.valor) ||
                     autor.edad.toLowerCase().includes(this.valor.toLowerCase()) ||
@@ -102,8 +107,11 @@ Vue.component('componente-autors', {
                     autor.fechac.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.tratamientos.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.dosis.toLowerCase().includes(this.valor.toLowerCase()) ||
-                    autor.tiempot.toLowerCase().includes(this.valor.toLowerCase()) 
-                );
+                    autor.tiempot.toLowerCase().includes(this.valor.toLowerCase())
+                ).map((autor, index) => {
+                    autor.registroNumero = index + 1;
+                    return autor; 
+                });
             };
         },
     },
@@ -127,6 +135,12 @@ Vue.component('componente-autors', {
                                 <option value="Si">Si</option>
                                 <option value="No">No</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row p-1">
+                            <div class="col-md-3 text-nowrap">Fecha Esterilización</div>
+                            <div class="col-md-6">
+                                <input v-model="autor.fechaet" type="date" class="form-control">                               
                             </div>
                         </div>
                         <div class="row p-1">
@@ -258,8 +272,10 @@ Vue.component('componente-autors', {
                                             </th>
                                         </tr>
                                         <tr>
+                                            <th>N°</th>
                                             <th>NOMBRE</th>
                                             <th>ESTERILIZADO</th>
+                                            <th>FECHA_ESTERILIZADO</th>
                                             <th>ESPECIE</th>
                                             <th>FECHA_INGRESO</th>
                                             <th>EDAD</th>                                           
@@ -280,8 +296,10 @@ Vue.component('componente-autors', {
                                     </thead>
                                     <tbody>
                                         <tr @click="modificarAutor(autor)" v-for="autor in autors" :key="autor.idAutor">
+                                            <td>{{ autor.registroNumero }}</td>
                                             <td>{{ autor.nombre }}</td>
                                             <td>{{ autor.esterilizado }}</td>
+                                            <td>{{ autor.fechaet }}</td>
                                             <td>{{ autor.especie }}</td>
                                             <td>{{ autor.fechaingreso }}</td>
                                             <td>{{ autor.edad }}</td>
