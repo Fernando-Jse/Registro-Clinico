@@ -1,3 +1,5 @@
+import { escribirDatosFirebase, leerDatosFirebase, abrirStore } from './db.js';
+
 Vue.component('componente-autors', {
     data() {
         return {
@@ -34,6 +36,10 @@ Vue.component('componente-autors', {
         },
         eliminarAutor(idAutor) {
             if (confirm(`¿Está seguro de eliminar el registro?`)) {
+                // Eliminar de Firebase
+                escribirDatosFirebase(idAutor, null); // Borra el registro en Firebase
+
+                // Eliminar de IndexedDB si también lo usas
                 let store = abrirStore('autors', 'readwrite'),
                     query = store.delete(idAutor);
                 query.onsuccess = () => {
@@ -50,6 +56,15 @@ Vue.component('componente-autors', {
             this.autor = { ...autor };
         },
         guardarAutor() {
+            if (this.accion === 'nuevo') {
+                // Guardar en Firebase
+                escribirDatosFirebase(this.autor.idAutor, this.autor);
+            } else {
+                // Actualizar en Firebase
+                escribirDatosFirebase(this.autor.idAutor, this.autor);
+            }
+
+            // Guardar en IndexedDB si también lo usas
             let store = abrirStore('autors', 'readwrite'),
                 query = store.put({ ...this.autor });
             query.onsuccess = () => {
@@ -86,10 +101,11 @@ Vue.component('componente-autors', {
             };
         },
         listar() {
-            let store = abrirStore('autors', 'readonly'),
-                data = store.getAll();
-            data.onsuccess = resp => {
-                this.autors = data.result.filter(autor =>
+            leerDatosFirebase((data) => {
+                this.autors = Object.values(data || {}).map((autor, index) => {
+                    autor.registroNumero = index + 1;
+                    return autor;
+                }).filter(autor =>
                     autor.nombre.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.esterilizado.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.fechaet.toLowerCase().includes(this.valor.toLowerCase()) ||
@@ -108,11 +124,8 @@ Vue.component('componente-autors', {
                     autor.tratamientos.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.dosis.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.tiempot.toLowerCase().includes(this.valor.toLowerCase())
-                ).map((autor, index) => {
-                    autor.registroNumero = index + 1;
-                    return autor; 
-                });
-            };
+                );
+            });
         },
     },
     template: `
