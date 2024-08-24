@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="style1.css">
 </head>
 <body>
-    <div class="container-fluid" id="app">
+    <div class="container-fluid" id="app" v-if="authenticated">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <a class="navbar-brand">::.. REGISTRO VETERINARIO ..::</a>
@@ -20,6 +20,9 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-link" @click="abrirFormulario('autor')">Registro</a>
+                    </div>
+                    <div class="ms-auto">
+                        <button @click="logout" class="btn btn-outline-secondary">Cerrar sesión</button>
                     </div>
                 </div>
             </div>
@@ -32,6 +35,7 @@
             </div>
         </div>
     </div>
+
     <!-- Firebase App (required) -->
     <script type="module" src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js"></script>
     <!-- Firebase Realtime Database (optional) -->

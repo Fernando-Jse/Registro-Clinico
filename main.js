@@ -1,8 +1,9 @@
 import { escribirDatosFirebase, leerDatosFirebase } from './db.js';
 
-var app = new Vue({
+new Vue({
     el: '#app',
     data: {
+        authenticated: localStorage.getItem('authenticated') === 'true',
         forms: {
             autor: { mostrar: false, datos: [] },
         }
@@ -21,9 +22,17 @@ var app = new Vue({
             leerDatosFirebase((data) => {
                 this.forms.autor.datos = data || [];
             });
+        },
+        logout() {
+            localStorage.removeItem('authenticated');
+            window.location.href = 'login.html'; // Redirige a la página de inicio de sesión
         }
     },
     mounted() {
-        this.cargarDatos();
+        if (this.authenticated) {
+            this.cargarDatos();
+        } else {
+            window.location.href = 'login.html'; // Redirige a la página de inicio de sesión si no está autenticado
+        }
     }
 });

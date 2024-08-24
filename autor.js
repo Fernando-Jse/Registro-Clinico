@@ -12,20 +12,18 @@ Vue.component('componente-autors', {
                 esterilizado: '',
                 fechaet: '',
                 especie: '',
+                genero: '',
                 fechaingreso: '',
                 edad: '',
                 color: '',
                 peso: '',
-                genero: '',
                 estado: '',
+                fechadf: '',
                 desparasitacion: '',
                 rabia: '',
-                quintuple: '',
                 moquillo: '',
-                fechac: '',
-                tratamientos: '',
-                dosis: '',
-                tiempot: '',
+                multiple: '',
+                leucemia: '',
                 registroNumero: 0, 
             }
         }
@@ -83,20 +81,18 @@ Vue.component('componente-autors', {
                 esterilizado: '',
                 fechaet: '',
                 especie: '',
+                genero: '',
                 fechaingreso: '',
                 edad: '',
                 color: '',
                 peso: '',
-                genero: '',
                 estado: '',
+                fechadf: '',
                 desparasitacion: '',
                 rabia: '',
-                quintuple: '',
                 moquillo: '',
-                fechac: '',
-                tratamientos: '',
-                dosis: '',
-                tiempot: '',
+                multiple: '',
+                leucemia: '',
                 registroNumero: this.autors.length + 1
             };
         },
@@ -110,20 +106,18 @@ Vue.component('componente-autors', {
                     autor.esterilizado.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.fechaet.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.especie.toLowerCase().includes(this.valor.toLowerCase()) ||
+                    autor.genero.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.fechaingreso.toString().includes(this.valor) ||
                     autor.edad.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.color.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.peso.toLowerCase().includes(this.valor.toLowerCase()) ||
-                    autor.genero.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.estado.toLowerCase().includes(this.valor.toLowerCase()) ||
+                    autor.fechadf.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.desparasitacion.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.rabia.toLowerCase().includes(this.valor.toLowerCase()) ||
-                    autor.quintuple.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.moquillo.toLowerCase().includes(this.valor.toLowerCase()) ||
-                    autor.fechac.toLowerCase().includes(this.valor.toLowerCase()) ||
-                    autor.tratamientos.toLowerCase().includes(this.valor.toLowerCase()) ||
-                    autor.dosis.toLowerCase().includes(this.valor.toLowerCase()) ||
-                    autor.tiempot.toLowerCase().includes(this.valor.toLowerCase())
+                    autor.multiple.toLowerCase().includes(this.valor.toLowerCase()) ||
+                    autor.leucemia.toLowerCase().includes(this.valor.toLowerCase())
                 );
             });
         },
@@ -142,7 +136,7 @@ Vue.component('componente-autors', {
                             </div>
                         </div>
                         <div class="row p-1">
-                            <div class="col-md-3 text-nowrap">Esterilizado</div>
+                            <div class="col-md-3 text-nowrap">Esterilizado/Castrado</div>
                             <div class="col-md-6">
                                 <select v-model="autor.esterilizado" type="text" class="form-control">
                                 <option value="Si">Si</option>
@@ -166,9 +160,18 @@ Vue.component('componente-autors', {
                             </div>
                         </div>
                         <div class="row p-1">
+                            <div class="col-md-3 text-nowrap">Genero</div>
+                            <div class="col-md-6">
+                                <select v-model="autor.genero" type="text" class="form-control">
+                                <option value="Macho">Macho</option>
+                                <option value="Hembra">Hembra</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row p-1">
                             <div class="col-md-3 text-nowrap">Fecha de Ingreso</div>
                             <div class="col-md-6">
-                                <input v-model="autor.fechaingreso" type="date" min="0" class="form-control">
+                                <input v-model="autor.fechaingreso" type="date" class="form-control">
                             </div>
                         </div>
                         <div class="row p-1">
@@ -190,21 +193,18 @@ Vue.component('componente-autors', {
                             </div>
                         </div>
                         <div class="row p-1">
-                            <div class="col-md-3 text-nowrap">Genero</div>
-                            <div class="col-md-6">
-                                <select v-model="autor.genero" type="text" class="form-control">
-                                <option value="Macho">Macho</option>
-                                <option value="Hembra">Hembra</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row p-1">
                             <div class="col-md-3 text-nowrap">Estado</div>
                             <div class="col-md-6">
                                 <select v-model="autor.estado" type="text" class="form-control">
                                 <option value="Vivo">Vivo</option>
                                 <option value="Fallecido">Fallecido</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row p-1">
+                            <div class="col-md-3 text-nowrap">Fecha_Defuncion</div>
+                            <div class="col-md-6">
+                                <input v-model="autor.fechadf" type="date" class="form-control">
                             </div>
                         </div>
                         <div class="row p-1">
@@ -220,39 +220,21 @@ Vue.component('componente-autors', {
                             </div>
                         </div>
                         <div class="row p-1">
-                            <div class="col-md-3 text-nowrap">Quintuple</div>
-                            <div class="col-md-6">
-                                <input v-model="autor.quintuple" type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row p-1">
                             <div class="col-md-3 text-nowrap">Moquillo</div>
                             <div class="col-md-6">
                                 <input v-model="autor.moquillo" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row p-1">
-                            <div class="col-md-3 text-nowrap">Fecha de consulta</div>
+                            <div class="col-md-3 text-nowrap">Multiple</div>
                             <div class="col-md-6">
-                                <input v-model="autor.fechac" type="date" class="form-control">
+                                <input v-model="autor.multiple" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row p-1">
-                            <div class="col-md-3 text-nowrap">Tratamientos</div>
+                            <div class="col-md-3 text-nowrap">Leucemia</div>
                             <div class="col-md-6">
-                                <input v-model="autor.tratamientos" type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-md-3 text-nowrap">Dosis</div>
-                            <div class="col-md-6">
-                                <input v-model="autor.dosis" type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col-md-3 text-nowrap">Tiempo Tratamiento</div>
-                            <div class="col-md-6">
-                                <input v-model="autor.tiempot" type="text" class="form-control">
+                                <input v-model="autor.leucemia" type="text" class="form-control">
                             </div>
                         </div>
                         
@@ -287,23 +269,21 @@ Vue.component('componente-autors', {
                                         <tr>
                                             <th>N°</th>
                                             <th>NOMBRE</th>
-                                            <th>ESTERILIZADO</th>
+                                            <th>ESTERILIZADO/CASTRADO</th>
                                             <th>FECHA_ESTERILIZADO</th>
-                                            <th>ESPECIE</th>
+                                            <th>ESPECIE</th>                                           
+                                            <th>GENERO</th>
                                             <th>FECHA_INGRESO</th>
                                             <th>EDAD</th>                                           
                                             <th>COLOR</th>
                                             <th>PESO</th>
-                                            <th>GENERO</th>
                                             <th>ESTADO</th>
+                                            <th>FECHA_DEFUNCION</th>
                                             <th>DESPARASITACIÓN</th>
                                             <th>RABIA</th>
-                                            <th>QUINTUPLE</th>
                                             <th>MOQUILLO</th>
-                                            <th>FECHA_CONSULTA</th>
-                                            <th>TRATAMIENTOS</th>
-                                            <th>DOSIS</th>
-                                            <th>TIEMPO_TRATAMIENTO</th>
+                                            <th>MULTIPLE</th>
+                                            <th>LEUCEMIA</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -313,21 +293,19 @@ Vue.component('componente-autors', {
                                             <td>{{ autor.nombre }}</td>
                                             <td>{{ autor.esterilizado }}</td>
                                             <td>{{ autor.fechaet }}</td>
-                                            <td>{{ autor.especie }}</td>
+                                            <td>{{ autor.especie }}</td>                                            
+                                            <td>{{ autor.genero }}</td>
                                             <td>{{ autor.fechaingreso }}</td>
                                             <td>{{ autor.edad }}</td>
                                             <td>{{ autor.color }}</td>
                                             <td>{{ autor.peso }}</td>
-                                            <td>{{ autor.genero }}</td>
                                             <td>{{ autor.estado }}</td>
+                                            <td>{{ autor.fechadf }}</td>
                                             <td>{{ autor.desparasitacion }}</td>
                                             <td>{{ autor.rabia }}</td>
-                                            <td>{{ autor.quintuple }}</td>
                                             <td>{{ autor.moquillo }}</td>
-                                            <td>{{ autor.fechac }}</td>
-                                            <td>{{ autor.tratamientos }}</td>
-                                            <td>{{ autor.dosis }}</td>
-                                            <td>{{ autor.tiempot }}</td>
+                                            <td>{{ autor.multiple }}</td>
+                                            <td>{{ autor.leucemia }}</td>
                                             <td>
                                                 <button @click.prevent="eliminarAutor(autor.idAutor)" class="btn btn-outline-danger">Eliminar</button>
                                             </td>
