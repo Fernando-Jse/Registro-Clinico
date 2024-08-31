@@ -1,10 +1,12 @@
 import { escribirDatosFirebase, leerDatosFirebase, abrirStore } from './db.js';
+import { subirImagenFirebase } from './db.js';
 
 Vue.component('componente-autors', {
     data() {
         return {
             valor: '',
             autors: [],
+            originalAutors: [],
             accion: 'nuevo',
             autor: {
                 idAutor: new Date().getTime(),
@@ -24,20 +26,55 @@ Vue.component('componente-autors', {
                 moquillo: '',
                 multiple: '',
                 leucemia: '',
-                registroNumero: 0, 
-            }
+                registroNumero: 0,
+                foto: null, 
+            },
+            ordenAscendente: true 
         }
     },
     methods: {
         buscarAutor() {
             this.listar();
         },
+        manejarArchivo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const filePath = `images/${file.name}`;
+                subirImagenFirebase(file, filePath).then((downloadURL) => {
+                    console.log('Archivo disponible en:', downloadURL);
+                    this.autor.fotoUrl = downloadURL; // Guarda la URL en el objeto autor
+                }).catch((error) => {
+                    console.error('Error al subir archivo:', error);
+                });
+            }
+        },
+        handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const path = `images/${file.name}`;
+                subirImagenFirebase(file, path).then((downloadURL) => {
+                    console.log('Archivo disponible en:', downloadURL);
+                    this.autor.fotoUrl = downloadURL; // Guarda la URL en el objeto autor
+                }).catch((error) => {
+                    console.error('Error al subir archivo:', error);
+                });
+            }
+        },           
+        ordenarAZ() {
+            if (this.ordenAscendente) {
+                this.originalAutors = [...this.autors]; // Guarda la lista original antes de ordenar
+                this.autors.sort((a, b) => a.nombre.localeCompare(b.nombre));
+            } else {
+                this.autors = [...this.originalAutors]; // Restaura la lista original
+            }
+            this.ordenAscendente = !this.ordenAscendente; // Alterna el estado de la ordenación
+        },
         eliminarAutor(idAutor) {
             if (confirm(`¿Está seguro de eliminar el registro?`)) {
                 // Eliminar de Firebase
                 escribirDatosFirebase(idAutor, null); // Borra el registro en Firebase
 
-                // Eliminar de IndexedDB si también lo usas
+                // Eliminar de IndexedDB 
                 let store = abrirStore('autors', 'readwrite'),
                     query = store.delete(idAutor);
                 query.onsuccess = () => {
@@ -62,12 +99,14 @@ Vue.component('componente-autors', {
                 escribirDatosFirebase(this.autor.idAutor, this.autor);
             }
 
-            // Guardar en IndexedDB si también lo usas
+            // Guardar en IndexedDB 
             let store = abrirStore('autors', 'readwrite'),
                 query = store.put({ ...this.autor });
             query.onsuccess = () => {
                 this.nuevoAutor();
                 this.listar();
+
+                this.$refs.fileInput.value = null;
             };
             query.onerror = e => {
                 console.error('Error al guardar en el registro', e);
@@ -93,7 +132,8 @@ Vue.component('componente-autors', {
                 moquillo: '',
                 multiple: '',
                 leucemia: '',
-                registroNumero: this.autors.length + 1
+                registroNumero: this.autors.length + 1,
+                fotourl:''
             };
         },
         listar() {
@@ -119,6 +159,7 @@ Vue.component('componente-autors', {
                     autor.multiple.toLowerCase().includes(this.valor.toLowerCase()) ||
                     autor.leucemia.toLowerCase().includes(this.valor.toLowerCase())
                 );
+                this.originalAutors = [...this.autors];
             });
         },
     },
@@ -237,6 +278,12 @@ Vue.component('componente-autors', {
                                 <input v-model="autor.leucemia" type="text" class="form-control">
                             </div>
                         </div>
+                        <div class="row p-1">
+                            <div class="col-md-3 text-nowrap">Foto</div>
+                            <div class="col-md-6">
+                                <input type="file" @change="handleFileUpload" accept="image/png, image/jpeg" ref="fileInput" class="form-control">
+                        </div>
+                    </div>
                         
                         <div class="row p-1">
                             <div class="col text-center">
@@ -265,6 +312,9 @@ Vue.component('componente-autors', {
                                             <th colspan="5">
                                                 <input placeholder="nombre, especie, fecha ingreso, edad" type="search" v-model="valor" @keyup="buscarAutor" class="form-control">
                                             </th>
+                                            <th>
+                                                <button @click.prevent="ordenarAZ" class="btn btn-outline-primary">Ordenar A-Z</button>
+                                            </th>
                                         </tr>
                                         <tr>
                                             <th>N°</th>
@@ -284,6 +334,7 @@ Vue.component('componente-autors', {
                                             <th>MOQUILLO</th>
                                             <th>MULTIPLE</th>
                                             <th>LEUCEMIA</th>
+                                            <th>FOTO</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -306,6 +357,9 @@ Vue.component('componente-autors', {
                                             <td>{{ autor.moquillo }}</td>
                                             <td>{{ autor.multiple }}</td>
                                             <td>{{ autor.leucemia }}</td>
+                                            <td>
+                                                <img :src="autor.fotoUrl" alt="Foto del autor" width="50" height="50" v-if="autor.fotoUrl">
+                                            </td>
                                             <td>
                                                 <button @click.prevent="eliminarAutor(autor.idAutor)" class="btn btn-outline-danger">Eliminar</button>
                                             </td>
